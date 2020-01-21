@@ -13,10 +13,11 @@ def signup(request):
         if u1==u2:
             try:
                 user=User.objects.get(username=request.POST['username'])
-                return render(request,'register.html',{'error':"User already eist"})
+                return render(request,'register.html',{'error':"Username already eist"})
 
             except User.DoesNotExist:
                 user=User.objects.create_user(username=request.POST['username'],password=request.POST['password'])
+                # auth.login(request,user)
             return redirect('home')
         else:
             return render(request,'register.html',{'error':"Password don't match"})
@@ -24,4 +25,19 @@ def signup(request):
     else:   
         return render(request, 'register.html')
 
+def login(request):
+    if request.method=="POST":
+        uname=request.POST['username']
+        pwd=request.POST['password']
+        user=auth.authenticate(username=uname,password=pwd)
+        if user is not None:
+            auth.login(request,user)
+            return render(request,'showBlog.html')
+        else:
+            return render(request,'login.html',{'error':'Invalid login credentials'})
+    else:
+        return render(request,'login.html')
 
+def logout(request):
+    auth.logout(request)
+    return redirect(home)

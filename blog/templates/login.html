@@ -147,12 +147,16 @@ button.social-signin.google {
     </style> 
 </head>
 <body>
-    <form method="POST" action={% url "signup" %}>
+    <h1>Login</h1>
+          {% if error %}
+          <h4>{{ error}}</h4>
+          {% endif %}
+    <form method="POST" action={% url 'login' %}>
     {% csrf_token %}
     <div id="login-box">
         <div class="left">
-          <h1>Login</h1>
-            <div class="one">  </div>
+          
+          <div class="one">  </div>
           <input type="text" name="username" placeholder="Username" />
           <input type="password" name="password" placeholder="Password" />
           <input type="submit" name="signup_submit" value="Login" />
