@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib import auth
 from django.contrib.auth.models import User
+from myBlog.views import show
 
 def home(request):
     return render(request, 'login.html')
@@ -18,7 +19,7 @@ def signup(request):
             except User.DoesNotExist:
                 user=User.objects.create_user(username=request.POST['username'],password=request.POST['password'])
                 # auth.login(request,user)
-            return redirect('home')
+            return redirect(home)
         else:
             return render(request,'register.html',{'error':"Password don't match"})
 
@@ -32,7 +33,7 @@ def login(request):
         user=auth.authenticate(username=uname,password=pwd)
         if user is not None:
             auth.login(request,user)
-            return render(request,'showBlog.html')
+            return redirect(show)
         else:
             return render(request,'login.html',{'error':'Invalid login credentials'})
     else:

@@ -17,9 +17,12 @@ from django.contrib import admin
 from django.urls import path,include
 from accounts.views import home
 from accounts import urls
+from myBlog.views import show, add
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',home),
-    path('accounts/',include('accounts.urls'))
+    path('accounts/',include('accounts.urls')),
+    path('show/',show, name="show"),
+    path('add/',add, name="add"),
 ]
